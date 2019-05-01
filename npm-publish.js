@@ -17,9 +17,18 @@ const argv = yargs
                 onError("Publish to npm failed - Invalid path directory")
             }
             console.log('Current directory: ' + process.cwd());
+
+            publishOptions = {};
+            if(argv.tag)
+                publishOptions.tag = argv.tag
+
             npm.setAuthToken()
-                .then(npm.publish())
+                .then(npm.publish(publishOptions))
                 .catch(onError);
+    })
+    .option('tag', {
+        alias: 't',
+        describe: 'optional tag to add to your npm package. npmjs.com default to \'latest\'',
     })
     .argv;
 
